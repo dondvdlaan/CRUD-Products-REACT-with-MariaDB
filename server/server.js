@@ -4,6 +4,8 @@ const express = require("express");
 const server = express();
 const port = 2000;
 
+const cors = require('cors');
+
 // Add colors
 const colors = require('colors');
 
@@ -16,6 +18,14 @@ const DBConnection = mysql.createConnection({
     database: 'product'
   })
 
+// ----------------- Server hochfahren -----------------
+// server.use(express.static('public', { extensions: ['html'] }));
+
+
+// ----------------- Middleware -----------------
+server.use(express.json());
+server.use(cors());
+
 
 //***************** Routing *****************
 
@@ -24,8 +34,10 @@ server.get(
     '/allProducts',
     (req,res) =>
     {
+      console.log('Now in server get');
     return res.send("allProducts req received");
     });
+    
 //***************** Funvtions *****************
 
 const inquireDatabase = () => {
