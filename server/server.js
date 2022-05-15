@@ -14,62 +14,71 @@ const colors = require('colors');
 
 // MariaDB
 const mysql = require('mysql');
-const DBConnection = mysql.createConnection({
+const DBConfig = {
     host: 'localhost',
     user: 'pato',
     password: 'duck',
     database: 'product'
-  })
-
+  }
+  
 // ----------------- File Handling -----------------
 const logData = data => {
-
+    
   fs.writeFile(
     './log/log.txt', 
     data,
     { flag: 'a+' }, 
     err => {if(err) console.log('Log failed: ', err);});
 }
-
-
+    
+    
 // ----------------- Server hochfahren -----------------
 // server.use(express.static('public', { extensions: ['html'] }));
-
-
+    
+    
 // ----------------- Middleware -----------------
 server.use(express.json());
 server.use(cors());
-
-
+    
+    
 //***************** Routing *****************
-
+    
 // Show all products
 server.get(
-    '/allProducts',
-    (req,res) =>
-    {
-      logData(`Request received: ${JSON.stringify(req.url)}\n`);
-      console.log('erver req.url: ', req.url);
-    return res.send("allProducts req received");
-    });
-    
-//***************** Funvtions *****************
+  '/allProducts',
+  (req,res) =>
+  // Log request
+  {logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      
+  // Prepare SQL statement
+  const sqlStatement = 
+  "SELECT productID, productItem, productDescription FROM products";
+      
+  // Fetch from DB
+  inquireDatabase(sqlStatement)
+  .then(rows => res.send(JSON.stringify(rows)));
 
-const inquireDatabase = () => {
-
-// Establishing DBConnection
-DBConnection.connect(err => {
-    if (err) console.log('DBConnection failed', err);
-    else console.log('DBConnection successfull');
 });
+    
+//***************** Functions *****************
+    
+const inquireDatabase = (sqlStatement) => {
+  
+  return new Promise(function(resolve, reject) {
+  
+      
+    // Establishing DBConnection
+    const DBConnection = mysql.createConnection(DBConfig);
 
-DBConnection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
-  if (err) throw err
+    // Inquire DB 
+    DBConnection.query(sqlStatement, (err, rows, fields) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(rows);  
+    }) // END Inquire DB
+  }) // END Promise
 
-  console.log('The solution is: ', rows[0].solution)
-})
-
-DBConnection.end()  // Close DBConnection
 } // END inquireDatabase
 
 
