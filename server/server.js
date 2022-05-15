@@ -6,6 +6,9 @@ const port = 2000;
 
 const cors = require('cors');
 
+// File handler
+const fs = require('fs');
+
 // Add colors
 const colors = require('colors');
 
@@ -17,6 +20,17 @@ const DBConnection = mysql.createConnection({
     password: 'duck',
     database: 'product'
   })
+
+// ----------------- File Handling -----------------
+const logData = data => {
+
+  fs.writeFile(
+    './log/log.txt', 
+    data,
+    { flag: 'a+' }, 
+    err => {if(err) console.log('Log failed: ', err);});
+}
+
 
 // ----------------- Server hochfahren -----------------
 // server.use(express.static('public', { extensions: ['html'] }));
@@ -34,7 +48,8 @@ server.get(
     '/allProducts',
     (req,res) =>
     {
-      console.log('Now in server get');
+      logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      console.log('erver req.url: ', req.url);
     return res.send("allProducts req received");
     });
     

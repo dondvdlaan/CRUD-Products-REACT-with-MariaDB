@@ -1,30 +1,20 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import './App.css';
-import axios from "axios";
+import MariaDBApi from './shared/MariaDBApi';
 
 function App() {
 
-  useEffect(() => {
-
-    axios({
-      method: "get",
-      url: 'http://localhost:2000/allProducts'})
-  .then(function (response) {
-    // handle success
-    console.log('response: ', response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-},[]);
+console.log('Now calling MariaDBApi');
+  
+MariaDBApi('get','allProducts');
+  
 
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Testing Comm</h1>        
+        <h1>Testing Comm with MariaDB</h1>        
 
       </header>
     </div>

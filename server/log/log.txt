@@ -1,0 +1,6 @@
+Request received: [object Object]Request received: [object Object]Request received: {}Request received: {}Request received: {}Request received: {}Request received: {}Request received: {}Request received: "/allProducts"Request received: "/allProducts"Request received: "/allProducts"
+Request received: "/allProducts"
+Request received: "/allProducts"
+Request received: "/allProducts"
+Request received: "/allProducts"
+Request received: "/allProducts"
