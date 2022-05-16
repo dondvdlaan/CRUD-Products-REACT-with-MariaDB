@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function MariaDBApi(method:string, path: string ) {
+function mariaDBApi(method:string, path: string ) {
   // UseState declaration
   const [rows, setRows] = useState([]);
 
@@ -21,4 +21,4 @@ function MariaDBApi(method:string, path: string ) {
   return rows;
 }
 
-export default MariaDBApi;
+export default mariaDBApi;
