@@ -1,17 +1,13 @@
 import './App.css';
-import NavBar from './NavBar';
-import ProductTable from './ProductTable';
+import { BrowserRouter } from "react-router-dom";
+import Routing from './Routing';
 
 function App() {
 
 return (
-<>
-<section className='p-3'>
-  <NavBar />
-  <ProductTable />
-</section>
-</>
-    
+  <BrowserRouter >
+    <Routing />
+  </BrowserRouter >
   );  // END Return
 }
 
