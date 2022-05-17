@@ -20,6 +20,9 @@ const onProductDetail = (row) => {
 if (!rows) {
   return <p>Lade</p>;
 }
+const row = rows[0];
+console.log('row: ', row);
+
 return (
 <table className="table table-hover table-sm ">
     <caption>List of Products</caption>

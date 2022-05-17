@@ -6,9 +6,7 @@ import ProductDetails from "./ProductDetails";
 
 const ProductDetailView = () =>{
 // Constants
-const { productID } = useParams<{ productID: string }>();
-
-console.log('ID: ', productID);
+const { ID } = useParams<{ ID: string }>();
 
 const VIEW = "Product Detail";
 
@@ -16,7 +14,7 @@ const VIEW = "Product Detail";
         <section className='p-3'>
           <NavBar view={VIEW}/>
           <Link to={'/dash'} style={{ textDecoration: 'none' }}>
-          <ProductDetails ID={productID} />
+          <ProductDetails ID={ID} />
           </Link>
         </section>
             

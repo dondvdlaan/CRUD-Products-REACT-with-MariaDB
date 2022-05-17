@@ -16,7 +16,7 @@ function mariaDBApi(method:string, path: string ) {
       // handle error
       console.log(error);
     })
-  },[]);
+  },[path]);
 
   return rows;
 }

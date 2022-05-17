@@ -30,9 +30,16 @@ SET time_zone = "+00:00";
 CREATE TABLE `products` (
   `productID` int(11) NOT NULL,
   `productItem` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `productDescription` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `productDescription` text COLLATE utf8mb4_unicode_ci NOT NULL, 
+  `productDetails` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `productDate` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+INSERT INTO `products` (`productItem`, `productDescription`, `productDetails`) 
+VALUES ('Radio', 'DAB Kitchen Radio', 'MEDION Internet Kitchen Radio with DAB+ with Amazon Alexa (Undermount Radio, WiFi, Bluetooth, FM, Spotify Connect, Party Mode, DLNA/PNP, Colour Display) White');
 
 --
 -- Indexes for table `products`

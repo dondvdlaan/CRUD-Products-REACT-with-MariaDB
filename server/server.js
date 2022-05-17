@@ -58,7 +58,28 @@ server.get(
   inquireDatabase(sqlStatement)
   .then(rows => res.send(JSON.stringify(rows)));
 
-});
+}); // END Get All Products
+
+// Show Details product
+server.get(
+  '/detail/:ID',
+  (req,res) => {
+
+  // Reading ID from the URL
+  const ID = req.params.ID;
+  
+  // Log request
+  logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      
+  // Prepare SQL statement
+  const sqlStatement = 
+  `SELECT productItem, productDetails FROM products WHERE productID = ${ID}  `;
+      
+  // Fetch from DB
+  inquireDatabase(sqlStatement)
+  .then(rows => res.send(JSON.stringify(rows)));
+
+}); // END Get Details product  
     
 //***************** Functions *****************
     
@@ -66,7 +87,6 @@ const inquireDatabase = (sqlStatement) => {
   
   return new Promise(function(resolve, reject) {
   
-      
     // Establishing DBConnection
     const DBConnection = mysql.createConnection(DBConfig);
 
@@ -78,7 +98,6 @@ const inquireDatabase = (sqlStatement) => {
       resolve(rows);  
     }) // END Inquire DB
   }) // END Promise
-
 } // END inquireDatabase
 
 
