@@ -3,10 +3,12 @@ import ProductTable from "./ProductTable";
 
 
 function dashboard() {
+// Constants
+const VIEW = "Dashboard";
 
     return (
     <section className='p-3'>
-      <NavBar />
+      <NavBar view={VIEW}/>
       <ProductTable />
     </section>
         

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import ProductDetail from "./ProductDetail";
+import ProductDetailView from "./ProductDetailView";
 
 
 const Routing = () => {
@@ -8,8 +8,10 @@ const Routing = () => {
     return (
 
     <Routes>
-      <Route path="/detail" element={<ProductDetail/>} />
+      <Route path="/detail/:productID" element={<ProductDetailView/>} />
       <Route path="/dash" element={<Dashboard/>} />
+      <Route path="/" element={<Navigate to="/dash" />} />
+
     </Routes>
     )
     
