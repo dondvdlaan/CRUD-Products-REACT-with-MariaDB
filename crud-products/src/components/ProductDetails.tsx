@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
-import useMariaDBApi from "../shared/useMariaDBApi";
+import {useMariaDBApi} from "../shared/MariaDBApi";
 
+interface Props {
+  ID: string | undefined;
+}
 
-
-const ProductDetails = (props) => {
+const ProductDetails = (props: Props) => {
 
 // Constants
 const products = useMariaDBApi('get',`detail/${props.ID}`);  //Now calling MariaDBApi
@@ -16,13 +18,13 @@ if (!products) {
 console.log('products', products[0]);
 
 return (
-<div className="container">
+<div className="container text-dark">
   {products.map((product, index) =>
   <h2 key={index}>Product: {product.productItem} </h2>
   )}
   <div className="row">
     <div className="col-sm-5" >
-      Detailed Descriotion:
+      Detailed Description:
     </div>
   {products.map((product, index) =>
     <div key={index} className="col-sm-6" >

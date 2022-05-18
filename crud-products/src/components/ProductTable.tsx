@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import useMariaDBApi from "../shared/useMariaDBApi";
+import {useMariaDBApi} from "../shared/MariaDBApi";
+import { Product } from "../types/Product";
+import { LoadingSpinner } from "./shared/LoadingSpinner";
 
 
 const ProductTable = () => {
@@ -10,20 +12,27 @@ const navigate = useNavigate();
 const rows = useMariaDBApi('get','allProducts');  //Now calling MariaDBApi
 
 const VIEW_SYMBOL = "D";
+const EDIT_SYMBOL = "E";
 
 //****************** Event handlers ******************
-const onProductDetail = (row) => {
-  navigate(`/detail/${row.productID}`)
-}
+const onProductDetail = (row: Product) => {
+  navigate(`/detail/${row.productID}`)}
+
+const onProductEdit = (row: Product) => {
+  navigate(`/edit/${row.productID}`)}
+    
+const onProductAdd = () => {
+  navigate(`/add`)}
 
 // Wait till rows are there
 if (!rows) {
-  return <p>Lade</p>;
+  return <LoadingSpinner />;
 }
 const row = rows[0];
 console.log('row: ', row);
 
 return (
+<>
 <table className="table table-hover table-sm ">
     <caption>List of Products</caption>
     <thead >
@@ -32,6 +41,8 @@ return (
       <th scope="col">Item</th>
       <th scope="col">Description</th>
       <th scope="col">Details</th>
+      <th scope="col">Edit</th>
+
     </tr>
   </thead>
   <tbody>
@@ -41,13 +52,17 @@ return (
       <td>{row.productItem}</td>
       <td>{row.productDescription}</td>
       <td 
-      id={row.productID}
       onClick={() => onProductDetail(row)}
       className="table-secondary">{VIEW_SYMBOL}</td>
+      <td 
+      onClick={() => onProductEdit(row)}
+      className="table-success">{EDIT_SYMBOL}</td>
     </tr>
     )} 
   </tbody>
 </table>
+<button onClick={onProductAdd} type="button" className="btn btn-primary">Add Product</button>
+</>
     ); // END return
 }
 

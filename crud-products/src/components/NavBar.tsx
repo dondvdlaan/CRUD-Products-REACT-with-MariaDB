@@ -1,8 +1,11 @@
 
 import pic from '../logo/logo.png';
 
+interface Props{
+    view: string;
+}
 
-const navBar = (props) =>{
+const navBar = (props: Props) =>{
 
 return(
 <>
