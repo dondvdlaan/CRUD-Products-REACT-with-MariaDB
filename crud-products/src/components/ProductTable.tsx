@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {useMariaDBApi} from "../shared/MariaDBApi";
+import {mariaDBApi, useMariaDBApi} from "../shared/MariaDBApi";
 import { Product } from "../types/Product";
 import { LoadingSpinner } from "./shared/LoadingSpinner";
 
@@ -11,8 +11,10 @@ const ProductTable = () => {
 const navigate = useNavigate();
 const rows = useMariaDBApi('get','allProducts');  //Now calling MariaDBApi
 
-const VIEW_SYMBOL = "D";
+const VIEW_SYMBOL = "V";
 const EDIT_SYMBOL = "E";
+const DELETE_SYMBOL = "D";
+
 
 //****************** Event handlers ******************
 const onProductDetail = (row: Product) => {
@@ -23,6 +25,10 @@ const onProductEdit = (row: Product) => {
     
 const onProductAdd = () => {
   navigate(`/add`)}
+
+const onProductDelete = (row: Product) => {
+  mariaDBApi('GET',`delete/${row.productID}`,() => navigate(`/`))
+  }
 
 // Wait till rows are there
 if (!rows) {
@@ -42,6 +48,8 @@ return (
       <th scope="col">Description</th>
       <th scope="col">Details</th>
       <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+
 
     </tr>
   </thead>
@@ -57,6 +65,9 @@ return (
       <td 
       onClick={() => onProductEdit(row)}
       className="table-success">{EDIT_SYMBOL}</td>
+      <td 
+      onClick={() => onProductDelete(row)}
+      className="table-warning">{DELETE_SYMBOL}</td>
     </tr>
     )} 
   </tbody>

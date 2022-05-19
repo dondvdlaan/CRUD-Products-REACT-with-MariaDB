@@ -11,7 +11,13 @@ const VIEW = "Add Product";
 return (
 <section className='p-3'>
     <NavBar view={VIEW} />
-    <ProductForm />
+    <ProductForm 
+    productID=""
+    productItem=""
+    productDescription=""
+    productDetails=""
+    isEdit={false}
+    />
 </section>
 )
 }

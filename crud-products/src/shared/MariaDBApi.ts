@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse, Method } from "axios";
 import { Product } from '../types/Product';
@@ -21,12 +20,18 @@ export function useMariaDBApi(method:Method, path: string ): Product[] {
   return rows;
 }
 
-export const mariaDBApi = (method: Method, path:string, callback:(data: any) => void) => {
+export const mariaDBApi = 
+(method: Method, 
+  path:string, 
+  callback:(data: any) => void,
+  data = {}
+  ) => {
 
   // Constants
   const config = {
     method,
-    url: `${BASE_URL}${path}`};
+    url: `${BASE_URL}${path}`,
+    data}
 
   axios(config)
   .then((response: AxiosResponse<any>) => callback(response.data) )

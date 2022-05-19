@@ -73,14 +73,97 @@ server.get(
       
   // Prepare SQL statement
   const sqlStatement = 
-  `SELECT productItem, productDetails FROM products WHERE productID = ${ID}  `;
+  `SELECT productItem, productDescription, productDetails FROM products WHERE productID = ${ID}  `;
       
   // Fetch from DB
   inquireDatabase(sqlStatement)
   .then(rows => res.send(JSON.stringify(rows)));
 
 }); // END Get Details product  
-    
+
+// Edit product
+server.put(
+  '/edit/:ID',
+  (req,res) => {
+
+  // Reading ID from the URL
+  const ID = req.params.ID;
+
+  console.log('ID: ', ID);
+  // Take body out of POST request
+  const product = req.body;
+  
+  // Log request
+  logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      
+  // Prepare SQL statement
+  let sqlStatement = `UPDATE products `; 
+  sqlStatement += `SET productItem = '${product.item}', `;
+  sqlStatement += `productDescription = '${product.description}', `;
+  sqlStatement += `productDetails = '${product.details}' `;
+  sqlStatement += `WHERE productID = ${ID}  `;
+      
+  console.log('sql', sqlStatement );
+
+  // Fetch from DB
+  inquireDatabase(sqlStatement)
+  .then(rows => res.send(JSON.stringify(rows)));
+  // .then(rows => console.log('DB res', rows));
+
+}); // END Get Details product  
+
+// Add new product
+server.post(
+  '/add',
+  (req,res) => {
+
+  // Take body out of POST request
+  const product = req.body;
+   
+  // Log request
+  logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      
+  // // Prepare SQL statement
+  let sqlStatement = 
+  `INSERT INTO products (productItem, productDescription, productDetails) `;
+  sqlStatement += `VALUES ('${product.item}', '${product.description}',`;
+  sqlStatement += `'${product.details}')`;
+
+  console.log('sql', sqlStatement );
+  
+  // Fetch from DB
+  inquireDatabase(sqlStatement)
+  .then(rows => res.send(JSON.stringify(rows)));
+  // .then(rows => console.log('DB res', rows));
+
+
+}); // END Post new product
+
+// Delete product
+server.get(
+  '/delete/:ID',
+  (req,res) => {
+
+  // Reading ID from the URL
+  const ID = req.params.ID;
+   
+  // Log request
+  logData(`Request received: ${JSON.stringify(req.url)}\n`);
+      
+  // // Prepare SQL statement
+  let sqlStatement = `DELETE FROM products `;
+  sqlStatement += `WHERE productID = '${ID}'`;
+
+  console.log('sql', sqlStatement );
+  
+  // Fetch from DB
+  inquireDatabase(sqlStatement)
+  .then(rows => res.send(JSON.stringify(rows)));
+  // .then(rows => console.log('DB res', rows));
+
+
+}); // END GET Delete product
+
 //***************** Functions *****************
     
 const inquireDatabase = (sqlStatement) => {

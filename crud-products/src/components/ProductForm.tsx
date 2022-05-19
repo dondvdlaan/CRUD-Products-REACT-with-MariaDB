@@ -1,78 +1,103 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Product } from "../types/Product";
+import {Method } from "axios";
+import { mariaDBApi } from "../shared/MariaDBApi";
 
+interface Props extends Required<Product>{
+  isEdit: Boolean;
+}
 
-
-export const ProductForm = () => {
+export const ProductForm = (props: Props) => {
 
 //****************** Constants ******************
 // Hooks
   const navigate = useNavigate();
+  const [ID, setID] = useState(props.productID);
+  const [item, setItem] = useState(props.productItem);
+  const [description, setDescription] = useState(props.productDescription);
+  const [details, setDetails] = useState(props.productDetails);
+ 
+console.log('ID: ', ID);
+console.log('Item: ', item);
+console.log('Desc: ', description);
+console.log('details: ', details);
 
 
-// Eventhandlers
+
+
+//****************** Functions ******************
+
+const product = () => ({
+  ID,
+  item,
+  description,
+  details
+}); 
+
+//****************** Eventhandlers ******************
 const onGoToDashboard = () =>{
   navigate('/');
 }
+const onFormFinished = (e: React.FormEvent) =>{
+  e.preventDefault();
+  const [method, path]: [Method, string] = props.isEdit
+  ? ["put", `edit/${ID}`]
+  : ["post", "add"];
 
+  console.log('method: ', method, 'path: ', path);
+  
+  mariaDBApi(method, path, () => navigate(`/`), product());
+}
 return (
   <>
 
-<form>
+<form onSubmit={onFormFinished}>
   <div className="form-group row">
-    <label htmlFor="inputEmail3" className="col-sm-3 col-form-label">Product Item: </label>
+    <label  className="col-sm-3 col-form-label">Product Item: </label>
     <div className="col-sm-8">
-      <input type="text" className="form-control" id="inputEmail3" placeholder="Product Item" />
+      <input 
+      type="text" 
+      className="form-control" 
+      placeholder="Product Item"
+      required
+      value={item}
+      onChange = {(e) => {setItem(e.target.value)}}
+      />
     </div>
   </div>
   <div className="form-group row">
-    <label htmlFor="inputPassword3" className="col-sm-3 col-form-label">Product Description:</label>
+    <label className="col-sm-3 col-form-label">Product Description:</label>
     <div className="col-sm-8">
-      <input type="text" className="form-control" id="inputPassword3" placeholder="Product Description" />
+      <input 
+      type="text" 
+      className="form-control" 
+      placeholder="Product Description"
+      required
+      value={description}
+      onChange = {(e) => {setDescription(e.target.value)}}
+      />
     </div>
+
   </div>
   <div className="form-group row">
-    <label htmlFor="inputPassword3" className="col-sm-3 col-form-label">Detailed Description:</label>
+    <label className="col-sm-3 col-form-label">Detailed Description:</label>
     <div className="col-sm-8">
-      <input type="text" className="form-control" id="inputPassword3" placeholder="Detailed Description" />
+      <input
+      type="text" 
+      className="form-control" 
+      placeholder="Detailed Description"
+      required
+      value={details}
+      onChange = {(e) => {setDetails(e.target.value)}}
+       />
     </div>
   </div>
-  <fieldset className="form-group">
-    <div className="row">
-      <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
-      <div className="col-sm-10">
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
-          <label className="form-check-label" htmlFor="gridRadios1">
-            First radio
-          </label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-          <label className="form-check-label" htmlFor="gridRadios2">
-            Second radio
-          </label>
-        </div>
-        <div className="form-check disabled">
-          <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled />
-          <label className="form-check-label" htmlFor="gridRadios3">
-            Third disabled radio
-          </label>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-  <div className="form-group row">
-    <div className="col-sm-2">Checkbox</div>
-    <div className="col-sm-10">
-      <div className="form-check">
-        <input className="form-check-input" type="checkbox" id="gridCheck1" />
-        <label className="form-check-label" htmlFor="gridCheck1">
-        Example checkbox
-        </label>
-      </div>
-    </div>
-  </div>
-  <div className="form-group row">
+  <br />
+   <div className="form-group row">
+     <div className="col-sm-3">
+
+     </div>
     <div className="col-sm-2">
       <button type="submit" className="btn btn-primary">Finished</button>
     </div>
